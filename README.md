@@ -1,12 +1,19 @@
 <!-- omit in toc -->
 # Traefik Sablier Plugin
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/sablierapp/sablier-traefik-plugin)](https://goreportcard.com/report/github.com/sablierapp/sablier-traefik-plugin)
+[![Discord](https://img.shields.io/discord/1298488955947454464?logo=discord&logoColor=5865F2&cacheSeconds=1&link=http%3A%2F%2F)](https://discord.gg/Gpz5ha8WWx)
+
+Start your containers on demand, shut them down automatically when there's no activity using [Traefik](https://github.com/traefik/traefik).
+
 - [Installation](#installation)
 - [Traefik with Docker classic](#traefik-with-docker-classic)
 - [Traefik with Docker Swarm](#traefik-with-docker-swarm)
 - [Traefik with Kubernetes](#traefik-with-kubernetes)
 - [Plugin](#plugin)
-- [Development](#development)
+- [Other Plugins](#other-plugins)
+- [Community](#community)
+- [Support](#support)
 
 ## Installation
 
@@ -156,26 +163,17 @@ See [Kubernetes E2E Traefik Test script](./e2e/kubernetes.sh) to see how it is r
 
 The plugin is available in the Traefik [Plugin Catalog](https://plugins.traefik.io/plugins/633b4658a4caa9ddeffda119/sablier)
 
-## Development
+## Other Plugins
 
-You can use this to load the plugin.
+- [sablier-caddy-plugin](https://github.com/sablierapp/sablier-caddy-plugin)
+- [sablier-proxywasm-plugin](https://github.com/sablierapp/sablier-proxywasm-plugin)
 
-```yaml
-version: "3.7"
+## Community
 
-services:
-  traefik:
-    image: traefik:2.9.1
-    command:
-      - --experimental.localPlugins.sablier.moduleName=github.com/sablierapp/sablier
-      - --entryPoints.http.address=:80
-      - --providers.docker=true
-    ports:
-      - "8080:80"
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - '../../..:/plugins-local/src/github.com/sablierapp/sablier'
-      - './dynamic-config.yml:/etc/traefik/dynamic-config.yml'
-```
+Join our Discord server to discuss and get support!
 
-But I recommend you to use the [`e2e`](./e2e/) folder.
+[![Discord](https://img.shields.io/discord/1298488955947454464?logo=discord&logoColor=5865F2&cacheSeconds=1&link=http%3A%2F%2F)](https://discord.gg/Gpz5ha8WWx)
+
+## Support
+
+See [SUPPORT.md](SUPPORT.md)

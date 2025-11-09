@@ -1,24 +1,26 @@
+<!-- omit in toc -->
 # Traefik Sablier Plugin
 
-- [Traefik Sablier Plugin](#traefik-sablier-plugin)
-  - [Installation](#installation)
-  - [Traefik with Docker classic](#traefik-with-docker-classic)
-  - [Traefik with Docker Swarm](#traefik-with-docker-swarm)
-  - [Traefik with Kubernetes](#traefik-with-kubernetes)
-  - [Plugin](#plugin)
-  - [Development](#development)
+- [Installation](#installation)
+- [Traefik with Docker classic](#traefik-with-docker-classic)
+- [Traefik with Docker Swarm](#traefik-with-docker-swarm)
+- [Traefik with Kubernetes](#traefik-with-kubernetes)
+- [Plugin](#plugin)
+- [Development](#development)
 
 ## Installation
 
 1. Add this snippet in the Traefik Static configuration
 
+<!-- x-release-please-version-start -->
 ```yaml
 experimental:
   plugins:
     sablier:
-      moduleName: "github.com/sablierapp/sablier"
-      version: "v1.8.0-beta.22"
+      moduleName: "github.com/sablierapp/sablier-traefik-plugin"
+      version: "v1.0.0"
 ```
+<!-- x-release-please-version-end -->
 
 2. Configure the plugin using the Dynamic Configuration. Example:
 
@@ -47,7 +49,6 @@ http:
           #   timeout: 1m
 ```
 
-You can also checkout the End to End tests here: [e2e](./e2e/).
 
 ## Traefik with Docker classic
 
@@ -71,7 +72,7 @@ services:
       - --entryPoints.http.address=:80
       - --providers.docker=true
       - --providers.file.filename=/etc/traefik/dynamic-config.yml
-      - --experimental.plugins.sablier.moduleName=github.com/sablierapp/sablier/plugins/traefik
+      - --experimental.plugins.sablier.moduleName=github.com/sablierapp/sablier-traefik-plugin
       - --experimental.plugins.sablier.version=v1.10.1
     ports:
       - "8080:80"

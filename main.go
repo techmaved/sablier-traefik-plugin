@@ -64,7 +64,7 @@ func (sm *SablierMiddleware) ServeHTTP(rw http.ResponseWriter, req *http.Request
 		useRedirect = sm.useRedirect
 	}
 
-	if conditonalResponseWriter.ready == false {
+	if !conditonalResponseWriter.ready {
 		conditonalResponseWriter.ready = true
 		if useRedirect {
 			conditonalResponseWriter.Header().Set("Location", req.URL.String())
@@ -107,14 +107,14 @@ func (r *responseWriter) Header() http.Header {
 }
 
 func (r *responseWriter) Write(buf []byte) (int, error) {
-	if r.ready == false {
+	if !r.ready {
 		return len(buf), nil
 	}
 	return r.responseWriter.Write(buf)
 }
 
 func (r *responseWriter) WriteHeader(code int) {
-	if r.ready == false && code == http.StatusServiceUnavailable {
+	if !r.ready && code == http.StatusServiceUnavailable {
 		// We get a 503 HTTP Status Code when there is no backend server in the pool
 		// to which the request could be sent.  Also, note that r.ready
 		// will never return false in case there was a connection established to

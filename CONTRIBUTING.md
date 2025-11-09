@@ -39,6 +39,6 @@ services:
       - "8080:80"
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - '../../..:/plugins-local/src/github.com/sablierapp/sablier-traefik-plugin'
+      - '../..:/plugins-local/src/github.com/sablierapp/sablier-traefik-plugin'
       - './dynamic-config.yml:/etc/traefik/dynamic-config.yml'
 ```

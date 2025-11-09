@@ -1,4 +1,4 @@
-package traefik
+package sablier_traefik_plugin
 
 import (
 	"bufio"

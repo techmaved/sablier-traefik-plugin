@@ -1,0 +1,44 @@
+services:
+  traefik:
+    # Support for non running containers was added in v3.6.0 (https://github.com/traefik/traefik/pull/10645)
+    image: traefik:v3.6.0
+    command:
+      # Uncomment the following lines to use the released version of the plugin
+      # - --experimental.plugins.sablier.modulename=github.com/sablierapp/sablier-traefik-plugin
+      # - --experimental.plugins.sablier.version=v1.0.0 # x-release-please-version
+      # Comment the following line to use the released version of the plugin
+      - --experimental.localPlugins.sablier.moduleName=github.com/sablierapp/sablier-traefik-plugin
+      - --entryPoints.http.address=:80
+      - --providers.docker=true
+    ports:
+      - "8080:80"
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      # Comment the following line to use the released version of the plugin
+      - '../..:/plugins-local/src/github.com/sablierapp/sablier-traefik-plugin'
+    restart: "no"
+
+  sablier:
+    image: sablierapp/sablier:1.10.1
+    command:
+      - start
+      - --provider.name=docker
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+  mimic:
+    image: sablierapp/mimic:v0.3.1
+    healthcheck:
+      test: [ "CMD", "/mimic", "healthcheck"]
+      interval: 5s
+    labels:
+      - sablier.enable=true
+      - sablier.group=mimic
+      - traefik.http.middlewares.mimicsablier.plugin.sablier.group=mimic
+      - traefik.http.middlewares.mimicsablier.plugin.sablier.sablierUrl=http://sablier:10000
+      - traefik.http.middlewares.mimicsablier.plugin.sablier.sessionDuration=1m
+      - traefik.http.middlewares.mimicsablier.plugin.sablier.dynamic.displayName=Mimic
+      # Available since Traefik v3.6.0 (https://github.com/traefik/traefik/pull/10645)
+      - traefik.docker.allownonrunning=true
+      - traefik.http.routers.mimic.rule=PathPrefix(`/`)
+      - traefik.http.routers.mimic.middlewares=mimicsablier

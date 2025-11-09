@@ -7,9 +7,10 @@
 Start your containers on demand, shut them down automatically when there's no activity using [Traefik](https://github.com/traefik/traefik).
 
 - [Installation](#installation)
-- [Traefik with Docker classic](#traefik-with-docker-classic)
-- [Traefik with Docker Swarm](#traefik-with-docker-swarm)
-- [Traefik with Kubernetes](#traefik-with-kubernetes)
+- [Usage](#usage)
+  - [Docker](#docker)
+  - [Docker Swarm](#docker-swarm)
+  - [Kubernetes](#kubernetes)
 - [Plugin](#plugin)
 - [Other Plugins](#other-plugins)
 - [Community](#community)
@@ -56,81 +57,13 @@ http:
           #   timeout: 1m
 ```
 
+## Usage
 
-## Traefik with Docker classic
+### Docker
 
+See the [docker example](./examples/docker/) on how to use the plugin with docker.
 
-**Container labels cannot be used**
-
-Traefik will evict the container from its pool if it's not running. Which means the middleware won't trigger on incoming request.
-
-You must use the dynamic configuration to route to the container whatever the container state is.
-
-**Example**
-
-*docker-compose.yml*
-```yaml
-version: "3.9"
-
-services:
-  traefik:
-    image: traefik:2.9.1
-    command:
-      - --entryPoints.http.address=:80
-      - --providers.docker=true
-      - --providers.file.filename=/etc/traefik/dynamic-config.yml
-      - --experimental.plugins.sablier.moduleName=github.com/sablierapp/sablier-traefik-plugin
-      - --experimental.plugins.sablier.version=v1.10.1
-    ports:
-      - "8080:80"
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - './dynamic-config.yml:/etc/traefik/dynamic-config.yml'
-
-  sablier:
-    image: sablierapp/sablier:1.8.0
-    command:
-      - start
-      - --provider.name=docker
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-    labels:
-      - traefik.enable=true
-      # Dynamic Middleware
-      - traefik.http.middlewares.dynamic.plugin.sablier.names=sablier-whoami-1
-      - traefik.http.middlewares.dynamic.plugin.sablier.sablierUrl=http://sablier:10000
-      - traefik.http.middlewares.dynamic.plugin.sablier.dynamic.sessionDuration=1m
-
-  whoami:
-    image: acouvreur/whoami:v1.10.2
-    # Cannot use labels because as soon as the container is stopped, the labels are not treated by Traefik
-    # The route doesn't exist anymore. Use dynamic-config.yml file instead.
-    # labels:
-    #  - traefik.enable
-    #  - traefik.http.routers.whoami-dynamic.rule=PathPrefix(`/dynamic/whoami`)
-    #  - traefik.http.routers.whoami-dynamic.middlewares=dynamic@docker
-```
-
-*dynamic-config.yaml*
-```yaml
-http:
-  services:
-    whoami:
-      loadBalancer:
-        servers:
-        - url: "http://whoami:80"
-
-  routers:
-    whoami-dynamic:
-      rule: PathPrefix(`/dynamic/whoami`)
-      entryPoints:
-        - "http"
-      middlewares:
-        - dynamic@docker
-      service: "whoami"
-```
-
-## Traefik with Docker Swarm
+### Docker Swarm
 
 ⚠️ Limitations
 
@@ -146,7 +79,7 @@ http:
     ```
 - We cannot use [allowEmptyServices](https://doc.traefik.io/traefik/providers/docker/#allowemptyservices) because if you use the [blocking strategy](LINKHERE) you will receive a `503`.
 
-## Traefik with Kubernetes
+### Kubernetes
 
 - The format of the `names` section is `<KIND>_<NAMESPACE>_<NAME>_<REPLICACOUNT>` where `_` is the delimiter.
   - Thus no `_` are allowed in `<NAME>`

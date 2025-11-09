@@ -42,3 +42,5 @@ services:
       - '../..:/plugins-local/src/github.com/sablierapp/sablier-traefik-plugin'
       - './dynamic-config.yml:/etc/traefik/dynamic-config.yml'
 ```
+
+Check out https://plugins.traefik.io/create

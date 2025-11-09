@@ -1,4 +1,4 @@
-package traefik_test
+package sablier_traefik_plugin_test
 
 import (
 	"io"

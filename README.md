@@ -11,8 +11,8 @@ Automatically start containers on demand and shut them down during periods of in
 This plugin is available in the [Traefik Plugin Catalog](https://plugins.traefik.io/plugins/69104ac3b7d4dd76110a1a09/sablier).
 
 - [Installation](#installation)
+- [Prerequisites](#prerequisites)
 - [Usage](#usage)
-  - [Prerequisites](#prerequisites)
   - [Dynamic Configuration](#dynamic-configuration)
   - [Docker](#docker)
   - [Docker Swarm](#docker-swarm)
@@ -47,14 +47,26 @@ Or using CLI arguments:
 ```
 <!-- x-release-please-version-end -->
 
-## Usage
-
-### Prerequisites
+## Prerequisites
 
 > [!IMPORTANT]
 > You must have a reachable instance of [Sablier](https://github.com/sablierapp/sablier) from [Traefik](https://github.com/traefik/traefik).
 
+## Usage
+
+The plugin can be configured in different ways depending on your deployment context:
+
+- **[Dynamic Configuration](#dynamic-configuration)**: Universal approach using configuration files (works with all Traefik providers)
+- **[Docker](#docker)**: Label-based configuration for Docker containers (requires Traefik v3.6.0+)
+- **[Docker Swarm](#docker-swarm)**: Swarm-specific configuration with centralized middleware definition
+- **[Kubernetes](#kubernetes)**: Kubernetes-native configuration using annotations and IngressRoute
+
+Choose the section that matches your deployment environment below.
+
 ### Dynamic Configuration
+
+> [!NOTE]
+> This configuration method works with **all Traefik providers** (Docker, Swarm, Kubernetes, File, etc.).
 
 Configure the plugin in your Traefik dynamic configuration:
 

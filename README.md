@@ -350,4 +350,23 @@ Join our Discord server for discussions and support:
 
 ## Support
 
-For support options, see [SUPPORT.md](SUPPORT.md).
+This project is maintained by a single developer in their free time. If you find Sablier useful, here are some ways you can show your support:
+
+⭐ **Star the repository** - It helps others discover the project and motivates continued development
+
+🤝 **Contribute** - Pull requests are always welcome! Whether it's:
+- Bug fixes
+- New features
+- Documentation improvements
+- Test coverage
+
+📚 **Share your usage** - We'd love to see how you're using Sablier! Consider:
+- Opening a discussion to share your setup
+- Contributing examples of your deployment configurations
+- Writing a blog post or tutorial
+
+💬 **Engage with the community** - Ask questions, report issues, or help others in [discussions](https://github.com/sablierapp/sablier/discussions)
+
+Every contribution, no matter how small, makes a difference and is greatly appreciated! 🙏
+
+For detailed support options, see [SUPPORT.md](SUPPORT.md).

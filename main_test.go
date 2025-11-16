@@ -3,7 +3,7 @@ package sablier_traefik_plugin
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/http/httptrace"
@@ -177,7 +177,7 @@ func TestSablierMiddleware_ServeHTTP(t *testing.T) {
 
 			res := w.Result()
 			defer res.Body.Close()
-			data, err := ioutil.ReadAll(res.Body)
+			data, err := io.ReadAll(res.Body)
 			if err != nil {
 				t.Errorf("expected error to be nil got %v", err)
 			}

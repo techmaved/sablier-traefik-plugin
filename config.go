@@ -20,7 +20,8 @@ type BlockingConfiguration struct {
 }
 
 type Config struct {
-	SablierURL      string `yaml:"sablierUrl"`
+	SablierURL string `yaml:"sablierUrl"`
+	// Deprecated: use Group instead
 	Names           string `yaml:"names"`
 	Group           string `yaml:"group"`
 	SessionDuration string `yaml:"sessionDuration"`

@@ -12,6 +12,7 @@ This plugin is available in the [Traefik Plugin Catalog](https://plugins.traefik
 
 - [Installation](#installation)
 - [Prerequisites](#prerequisites)
+- [Configuration](#configuration)
 - [Usage](#usage)
   - [Dynamic Configuration](#dynamic-configuration)
   - [Docker](#docker)
@@ -52,6 +53,40 @@ Or using CLI arguments:
 > [!IMPORTANT]
 > You must have a reachable instance of [Sablier](https://github.com/sablierapp/sablier) from [Traefik](https://github.com/traefik/traefik).
 
+## Configuration
+
+The plugin supports various configuration options to customize its behavior. All options are configured at the middleware level.
+
+
+**Complete Configuration Example:**
+
+```yaml
+http:
+  middlewares:
+    my-sablier:
+      plugin:
+        sablier:
+          sablierUrl: http://sablier:10000
+          group: my-app-group
+          sessionDuration: 1m
+          dynamic:
+            displayName: My Services
+            showDetails: true
+            theme: hacker-terminal
+            refreshFrequency: 5s
+```
+
+| Option            | Type     | Required | Default                | Description                                                                         |
+| ----------------- | -------- | -------- | ---------------------- | ----------------------------------------------------------------------------------- |
+| `sablierUrl`      | string   | Yes      | `http://sablier:10000` | URL of the Sablier server API (must be reachable from Traefik)                      |
+| `group`           | string   | Yes      | -                      | Group name for managing multiple instances collectively                             |
+| `sessionDuration` | duration | No       | -                      | Duration to keep instances running after the last request (e.g., `1m`, `30s`, `2h`) |
+| `dynamic.displayName`      | string   | No       | Middleware name | Display name shown on the waiting page                                  |
+| `dynamic.showDetails`      | boolean  | No       | Server default  | Show detailed information on the waiting page                           |
+| `dynamic.theme`            | string   | No       | Server default  | Theme for the waiting page (e.g., `hacker-terminal`, `ghost`, `matrix`) |
+| `dynamic.refreshFrequency` | duration | No       | Server default  | How often the waiting page checks if instances are ready                |
+| `blocking.timeout` | duration | No       | -       | Maximum time to wait for instances to become ready |
+
 ## Usage
 
 The plugin can be configured in different ways depending on your deployment context:
@@ -77,7 +112,7 @@ http:
       plugin:
         sablier:
           sablierUrl: http://sablier:10000  # Sablier service URL (must be reachable from Traefik)
-          names: whoami,nginx               # Comma-separated container/service/deployment names
+          group: my-app-group               # Group name for managing instances collectively
           sessionDuration: 1m               # Session duration before shutting down instances
           # Only one strategy can be used at a time
           # Declare either `dynamic` or `blocking`, not both
@@ -162,7 +197,7 @@ sablier:
     labels:
       - traefik.enable=true
       # Define the Sablier middleware here
-      - traefik.http.middlewares.whoami-sablier.plugin.sablier.names=my-stack_whoami
+      - traefik.http.middlewares.whoami-sablier.plugin.sablier.group=my-group
       - traefik.http.middlewares.whoami-sablier.plugin.sablier.sablierUrl=http://tasks.sablier:10000
       - traefik.http.middlewares.whoami-sablier.plugin.sablier.sessionDuration=1m
       - traefik.http.middlewares.whoami-sablier.plugin.sablier.dynamic.displayName=Whoami Service
@@ -224,10 +259,6 @@ whoami:
 ### Kubernetes
 
 <img src="./docs/assets/img/kubernetes.png" alt="kubernetes" width="100" align="right" />
-
-- The `names` field uses the format `<KIND>_<NAMESPACE>_<NAME>_<REPLICACOUNT>`, where `_` is the delimiter.
-  - Underscores are not allowed in `<NAME>`
-- `KIND` must be either `deployment` or `statefulset`
 
 ⚠️ **Limitations**
 

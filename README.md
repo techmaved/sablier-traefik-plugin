@@ -24,6 +24,7 @@ This plugin is available in the [Traefik Plugin Catalog](https://plugins.traefik
   - [Envoy](#envoy)
   - [Istio](#istio)
   - [Nginx](#nginx)
+- [Sponsor](#sponsor)
 - [Community](#community)
 - [Support](#support)
 
@@ -344,6 +345,20 @@ Sablier integrates with Nginx through a WASM module, bringing dynamic scaling to
 3. Configure Nginx locations with Sablier directives
 
 📚 **[Full Documentation](https://github.com/sablierapp/sablier-proxywasm-plugin)** | 💻 **[Plugin Repository](https://github.com/sablierapp/sablier-proxywasm-plugin)**
+
+## Sponsor
+
+If you find Sablier valuable and want to support its development, please consider sponsoring the project:
+
+💖 **[Sponsor on GitHub](https://github.com/sponsors/acouvreur)** - Your sponsorship helps keep this project maintained and actively developed
+
+Your support helps:
+- Keep the project maintained and up-to-date
+- Dedicate more time to bug fixes and new features
+- Improve documentation and examples
+- Support the broader open-source ecosystem
+
+Every contribution, no matter the size, makes a real difference. Thank you for considering! 🙏
 
 ## Community
 

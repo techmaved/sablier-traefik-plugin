@@ -15,7 +15,7 @@ We’ll review your issue as soon as possible!
 
 ## Discussions
 
-For general questions, ideas, or feedback, join the conversation in our [GitHub Discussions](https://github.com/sablierapp/discussions).
+For general questions, ideas, or feedback, join the conversation in our [GitHub Discussions](https://github.com/orgs/sablierapp/discussions).
 
 ## Join Our Discord
 
